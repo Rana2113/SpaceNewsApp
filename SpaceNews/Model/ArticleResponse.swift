@@ -13,12 +13,12 @@ struct ArticleResponse: Codable {
 struct Article : Codable  {
     let id : Int
     let title : String
-    let authors : authors
+    let authors : [Author]
     let url : String
     let urlToImage : String
     let newsSite : String
     let summary : String
-    let puplisedAt : Date
+    let publisedAt : String
     
     enum CodingKeys : String , CodingKey {
         case id
@@ -28,9 +28,9 @@ struct Article : Codable  {
         case urlToImage = "image_url"
         case newsSite = "news_site"
         case summary
-        case puplisedAt = "published_at"
+        case publisedAt = "published_at"
     }
-    struct authors : Codable {
+    struct Author : Codable {
         let name : String
     }
 }

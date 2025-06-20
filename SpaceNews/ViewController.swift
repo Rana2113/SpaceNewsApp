@@ -11,20 +11,39 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        AF.request("https://api.spaceflightnewsapi.net/v4/articles/")
-            .validate(statusCode: 200..<300)
-            .validate(contentType: ["application/json"])
-            .responseString
-        { response in
-            switch response.result {
-            case .success:
-                print("Validation Successful")
-                print(response.result)
-            case let .failure(error):
+        let api: ArticleAPIProtocol =  ArticlesAPI()
+        api.getArticles { (result) in
+            switch result {
+            case .success(let response ):
+                print(response.count)
+                let articles = response.results
+                for article in articles {
+                    print("title -> \(article.title) \n")
+                   
+                }
+            case .failure(let error):
                 print(error)
             }
-          
         }
+        
+        
+        
+        
+        
+//        AF.request("https://api.spaceflightnewsapi.net/v4/articles/")
+//            .validate(statusCode: 200..<300)
+//            .validate(contentType: ["application/json"])
+//            .responseString
+//        { response in
+//            switch response.result {
+//            case .success:
+//                print("Validation Successful")
+//                print(response.result)
+//            case let .failure(error):
+//                print(error)
+//            }
+//          
+//        }
     }
  
 

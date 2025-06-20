@@ -7,7 +7,7 @@
 
 import Foundation
 enum ArticlesNetworking {
-    case getAllAtricles
+    case getAllArticles
 }
 extension ArticlesNetworking : TargetType {
     var baseURL: URL {
@@ -19,28 +19,28 @@ extension ArticlesNetworking : TargetType {
     
     var path: String {
         switch self {
-        case .getAllAtricles :
+        case .getAllArticles :
             return "/v4/articles/"
         }
     }
     
     var method: HTTPMethod {
         switch self {
-        case .getAllAtricles :
+        case .getAllArticles :
             return .get
         }
     }
     
     var task: Task {
         switch self {
-            case .getAllAtricles :
+            case .getAllArticles :
             return .requestPlain
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .getAllAtricles :
+        case .getAllArticles :
             return .none
         }
         

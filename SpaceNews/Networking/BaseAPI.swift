@@ -17,19 +17,26 @@ class BaseAPI <T: TargetType>  {
         AF.request(baseURL , method: method , parameters: params.0 , encoding: params.1 , headers: headers)
             .validate(statusCode: 200..<300)
             .validate(contentType: ["application/json"])
-            .responseString
-        { response in
-            switch response.result {
-            case .success:
-                print("Validation Successful")
-                print(response.result)
-            case let .failure(error):
-                print(error)
+            .responseDecodable(of:  M.self) { response in
+                switch response.result {
+                case .success(let decodedData):
+                    completion(.success(decodedData))
+                case.failure(let error) :
+                    print("baseApi error \(error)")
+                    completion(.failure(error))
+                }
             }
-          
-        }
     }
-    
+//        .responseString
+//    { response in
+//        switch response.result {
+//        case .success:
+//            print("Validation Successful")
+//        case let .failure(error):
+//            print(error)
+//        }
+//      
+//    }
     
     
     private func buildParameters (task : Task) -> ([String: Any], ParameterEncoding ){

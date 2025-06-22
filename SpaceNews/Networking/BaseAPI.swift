@@ -22,8 +22,14 @@ class BaseAPI <T: TargetType>  {
                 case .success(let decodedData):
                     completion(.success(decodedData))
                 case.failure(let error) :
-                    print("baseApi error \(error)")
-                    completion(.failure(error))
+                    if let statusCode = response.response?.statusCode {
+                        let message = statusCode.errorMessage
+                        let customError = NSError(domain: baseURL.absoluteString, code: statusCode, userInfo: [NSLocalizedDescriptionKey : message])
+                        completion(.failure(customError))
+                    } else
+                    {
+                        completion(.failure(error))
+                    }
                 }
             }
     }

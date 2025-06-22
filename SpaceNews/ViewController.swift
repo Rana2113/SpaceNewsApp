@@ -22,7 +22,7 @@ class ViewController: UIViewController {
                    
                 }
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             }
         }
         

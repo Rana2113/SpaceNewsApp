@@ -20,7 +20,7 @@ extension ArticlesNetworking : TargetType {
     var path: String {
         switch self {
         case .getAllArticles :
-            return "/v4/articles/"
+            return "/v4/articls/"
         }
     }
     

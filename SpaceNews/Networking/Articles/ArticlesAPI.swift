@@ -15,6 +15,7 @@ class ArticlesAPI : BaseAPI<ArticlesNetworking> , ArticleAPIProtocol {
     func getArticles(completion: @escaping (Result<ArticleResponse, Error>) -> Void) {
         self.fetchData(target: .getAllArticles, responseType: ArticleResponse.self) { (result) in
             completion(result)
+            
            
           
         }

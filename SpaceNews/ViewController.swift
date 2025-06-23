@@ -14,12 +14,12 @@ class ViewController: UIViewController {
         let api: ArticleAPIProtocol =  ArticlesAPI()
         
         // get all Articles
-        api.getArticles { (result) in
+        api.getArticles(limit: 1000 , offset: 20 , orderBy: "-published_at") { (result) in
             switch result {
             case .success(let response ):
                 let articles = response.results
                 for article in articles {
-                    print("all title -> \(article.title) \n")
+                    print("all title -> \(article.title) \n Date -> \(article.publisedAt)")
                    
                 }
             case .failure(let error):
@@ -27,22 +27,20 @@ class ViewController: UIViewController {
             }
         }
         // search Articles
-//        api.searchArticles(by: "moon") { (result) in
-//            switch result {
-//            case .success(let response) :
-//                let articles = response.results
-//                for article in articles{
-//                    print("title -> \(article.title)")
-//                }
-//            case.failure(let error) :
-//                print(error.localizedDescription)
-//            }
-//            
-//        }
-//        
-        
-        
-        
+        api.searchArticles(by: "moon") { (result) in
+            switch result {
+            case .success(let response) :
+                let articles = response.results
+                for article in articles{
+                    print("title -> \(article.title)")
+                }
+            case.failure(let error) :
+                print(error.localizedDescription)
+            }
+            
+        }
+      
+     
         
 //        AF.request("https://api.spaceflightnewsapi.net/v4/articles/")
 //            .validate(statusCode: 200..<300)

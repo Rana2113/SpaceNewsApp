@@ -8,8 +8,9 @@
 import Foundation
 import Alamofire
 enum ArticlesNetworking {
-    case getAllArticles
+    case getAllArticles (limit : Int , offset : Int , orderBy : String?)
     case searchOfArticles (search: String)
+ 
 }
 extension ArticlesNetworking : TargetType {
     var baseURL: URL {
@@ -33,13 +34,22 @@ extension ArticlesNetworking : TargetType {
             return .get
         case.searchOfArticles :
             return .get
+   
         }
     }
     
     var task: Task {
         switch self {
-            case .getAllArticles :
-            return .requestPlain
+            case .getAllArticles(let limit , let offset , let orderBy) :
+            var params : [String: Any] = [
+                "limit" : limit,
+                "offset" : offset
+            ]
+            if let orderBy = orderBy {
+                params ["ordering"] = orderBy
+            }
+            return .requestParameterized(parameters: params, encoding: URLEncoding.default)
+         
         case .searchOfArticles(let search) :
             return .requestParameterized(parameters: ["search": search], encoding: URLEncoding.default)
         }

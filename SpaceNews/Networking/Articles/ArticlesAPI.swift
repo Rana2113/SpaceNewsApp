@@ -8,13 +8,14 @@
 import Foundation
 protocol ArticleAPIProtocol {
    
-    func getArticles(completion: @escaping (Result<ArticleResponse, Error>) -> Void)
+    func getArticles(limit : Int , offset : Int , orderBy : String? , completion: @escaping (Result<ArticleResponse, Error>) -> Void)
     func searchArticles(by query : String,completion: @escaping (Result<ArticleResponse, Error>) -> Void)
+   
 }
 class ArticlesAPI : BaseAPI<ArticlesNetworking> , ArticleAPIProtocol {
     // MARK: getAllArticles
-    func getArticles(completion: @escaping (Result<ArticleResponse, Error>) -> Void) {
-        self.fetchData(target: .getAllArticles, responseType: ArticleResponse.self) { (result) in
+    func getArticles(limit : Int , offset : Int , orderBy : String? , completion: @escaping (Result<ArticleResponse, Error>) -> Void) {
+        self.fetchData(target: .getAllArticles(limit: limit, offset: offset , orderBy: orderBy), responseType: ArticleResponse.self) { (result) in
             completion(result)
         }
     }

@@ -33,16 +33,6 @@ class BaseAPI <T: TargetType>  {
                 }
             }
     }
-//        .responseString
-//    { response in
-//        switch response.result {
-//        case .success:
-//            print("Validation Successful")
-//        case let .failure(error):
-//            print(error)
-//        }
-//      
-//    }
     
     
     private func buildParameters (task : Task) -> ([String: Any], ParameterEncoding ){

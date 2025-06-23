@@ -12,20 +12,34 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let api: ArticleAPIProtocol =  ArticlesAPI()
+        
+        // get all Articles
         api.getArticles { (result) in
             switch result {
             case .success(let response ):
-                print(response.count)
                 let articles = response.results
                 for article in articles {
-                    print("title -> \(article.title) \n")
+                    print("all title -> \(article.title) \n")
                    
                 }
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
-        
+        // search Articles
+//        api.searchArticles(by: "moon") { (result) in
+//            switch result {
+//            case .success(let response) :
+//                let articles = response.results
+//                for article in articles{
+//                    print("title -> \(article.title)")
+//                }
+//            case.failure(let error) :
+//                print(error.localizedDescription)
+//            }
+//            
+//        }
+//        
         
         
         

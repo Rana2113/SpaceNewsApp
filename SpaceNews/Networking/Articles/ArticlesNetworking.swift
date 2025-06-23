@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import Alamofire
 enum ArticlesNetworking {
     case getAllArticles
+    case searchOfArticles (search: String)
 }
 extension ArticlesNetworking : TargetType {
     var baseURL: URL {
@@ -19,14 +21,17 @@ extension ArticlesNetworking : TargetType {
     
     var path: String {
         switch self {
-        case .getAllArticles :
-            return "/v4/articls/"
+         default :
+            return "/v4/articles/"
+        
         }
     }
     
     var method: HTTPMethod {
         switch self {
         case .getAllArticles :
+            return .get
+        case.searchOfArticles :
             return .get
         }
     }
@@ -35,12 +40,14 @@ extension ArticlesNetworking : TargetType {
         switch self {
             case .getAllArticles :
             return .requestPlain
+        case .searchOfArticles(let search) :
+            return .requestParameterized(parameters: ["search": search], encoding: URLEncoding.default)
         }
     }
     
     var headers: [String : String]? {
         switch self {
-        case .getAllArticles :
+        default :
             return .none
         }
         

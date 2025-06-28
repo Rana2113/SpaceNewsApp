@@ -27,7 +27,7 @@ class ViewController: UIViewController {
             }
         }
         // search Articles
-        api.searchArticles(by: "moon") { (result) in
+        api.searchArticles(by: "moon" , offset:  0) { (result) in
             switch result {
             case .success(let response) :
                 let articles = response.results

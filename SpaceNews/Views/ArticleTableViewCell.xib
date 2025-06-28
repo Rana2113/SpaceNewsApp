@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ArticleCell" rowHeight="109" id="KGk-i7-Jjw" customClass="ArticleTableViewCell" customModule="SpaceNews" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="312" height="120"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="312" height="120"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="pJu-Zp-Gcy" userLabel="mainStack">
+                        <rect key="frame" x="12" y="16" width="288" height="110"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="fjS-Mw-HdA" userLabel="imageStack">
+                                <rect key="frame" x="0.0" y="0.0" width="90" height="110"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IkE-31-EXh" userLabel="articleImage">
+                                        <rect key="frame" x="0.0" y="0.0" width="90" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="90" id="8UH-9L-HHW"/>
+                                            <constraint firstAttribute="width" constant="90" id="sGh-FE-zU2"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SpaceNews" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.98999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="QQE-l0-ah8" userLabel="Source">
+                                        <rect key="frame" x="0.0" y="92" width="90" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" systemColor="systemGray2Color"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="YKw-W6-CBf" userLabel="textStack">
+                                <rect key="frame" x="102" y="0.0" width="186" height="100.66666666666667"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HoC-bk-pgQ" userLabel="titleLabel">
+                                        <rect key="frame" x="0.0" y="0.0" width="186" height="21.666666666666668"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You want the sourceLabel to appear below the image, not inside the text stack. Perfect kbjbj" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L9q-IC-foh" userLabel="summaryLabel">
+                                        <rect key="frame" x="0.0" y="25.666666666666664" width="186" height="53.999999999999993"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" systemColor="secondaryLabelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jun 26, 2025  " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SkA-Ec-O1B" userLabel="dateLabel">
+                                        <rect key="frame" x="0.0" y="83.666666666666671" width="186" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" systemColor="systemGray2Color"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="pJu-Zp-Gcy" secondAttribute="trailing" constant="12" id="9eo-tX-hxd"/>
+                    <constraint firstAttribute="bottom" secondItem="pJu-Zp-Gcy" secondAttribute="bottom" constant="16" id="J0c-1k-q6Z"/>
+                    <constraint firstItem="pJu-Zp-Gcy" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="ooB-9O-qGN"/>
+                    <constraint firstItem="pJu-Zp-Gcy" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="qUp-QT-a0E"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" name="dark"/>
+            <inset key="separatorInset" minX="12" minY="0.0" maxX="12" maxY="0.0"/>
+            <connections>
+                <outlet property="DateLabel" destination="SkA-Ec-O1B" id="X1n-dT-cyx"/>
+                <outlet property="articleImageView" destination="IkE-31-EXh" id="Av9-xH-ynj"/>
+                <outlet property="dateLabel" destination="SkA-Ec-O1B" id="i2J-Ar-vEv"/>
+                <outlet property="sourcelabel" destination="QQE-l0-ah8" id="3hk-0m-Ugv"/>
+                <outlet property="summaryLabel" destination="L9q-IC-foh" id="F2e-6Y-ozF"/>
+                <outlet property="titleLabel" destination="HoC-bk-pgQ" id="QWQ-Lp-34u"/>
+            </connections>
+            <point key="canvasLocation" x="-61.068702290076331" y="42.253521126760567"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="dark">
+            <color red="0.99999994039535522" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

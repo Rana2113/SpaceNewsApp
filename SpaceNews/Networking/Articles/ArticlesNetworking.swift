@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 enum ArticlesNetworking {
     case getAllArticles (limit : Int , offset : Int , orderBy : String?)
-    case searchOfArticles (search: String)
+    case searchOfArticles (search: String , offset : Int)
  
 }
 extension ArticlesNetworking : TargetType {
@@ -50,8 +50,10 @@ extension ArticlesNetworking : TargetType {
             }
             return .requestParameterized(parameters: params, encoding: URLEncoding.default)
          
-        case .searchOfArticles(let search) :
-            return .requestParameterized(parameters: ["search": search], encoding: URLEncoding.default)
+        case .searchOfArticles(let search , let offset) :
+            return .requestParameterized(parameters: ["search": search,
+                                                      "offset" : offset
+                                                     ], encoding: URLEncoding.default)
         }
     }
     

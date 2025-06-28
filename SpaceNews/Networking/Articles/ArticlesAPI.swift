@@ -9,7 +9,7 @@ import Foundation
 protocol ArticleAPIProtocol {
    
     func getArticles(limit : Int , offset : Int , orderBy : String? , completion: @escaping (Result<ArticleResponse, Error>) -> Void)
-    func searchArticles(by query : String,completion: @escaping (Result<ArticleResponse, Error>) -> Void)
+    func searchArticles(by query : String, offset: Int ,completion: @escaping (Result<ArticleResponse, Error>) -> Void)
    
 }
 class ArticlesAPI : BaseAPI<ArticlesNetworking> , ArticleAPIProtocol {
@@ -20,9 +20,9 @@ class ArticlesAPI : BaseAPI<ArticlesNetworking> , ArticleAPIProtocol {
         }
     }
     // MARK: searchArticles
-    func searchArticles(by query : String,completion: @escaping (Result<ArticleResponse, Error>) -> Void)
+    func searchArticles(by query : String, offset: Int,completion: @escaping (Result<ArticleResponse, Error>) -> Void)
     {
-        self.fetchData(target: .searchOfArticles(search: query), responseType: ArticleResponse.self ) { (result) in
+        self.fetchData(target: .searchOfArticles(search: query, offset: offset), responseType: ArticleResponse.self ) { (result) in
             completion(result)
         }
     }

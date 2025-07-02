@@ -25,7 +25,6 @@ class ArticlesTableViewController: UITableViewController  {
         super.viewDidLoad()
         let downloader = KingfisherManager.shared.downloader
         downloader.downloadTimeout = 10
-        fetchArticles()
         setUpSearchController()
         setUpTableViewCell()
         fetchArticles()
@@ -52,53 +51,6 @@ class ArticlesTableViewController: UITableViewController  {
         cell.configure(with: article)
         return cell
     }
-   
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     // MARK: - Article Service
     func fetchArticles(append : Bool = false) {
         guard !isFetching else { return
@@ -124,31 +76,48 @@ class ArticlesTableViewController: UITableViewController  {
         }
     }
     
-    
     func handleArticleResponse (_ result : Result<ArticleResponse, Error> , append : Bool ) {
         isFetching = false
         switch result {
         case.success(let response) :
             if response.results.isEmpty {
                 self.reachedEnd = true
-                return
             }
             if response.results.count < self.limit {
                 self.reachedEnd = true
             }else {
             }
-            if append {
-                self.articles += response.results
-            } else {
-                self.articles = response.results
+            DispatchQueue.main.async {
+                if append {
+                    self.articles += response.results
+                } else {
+                    self.articles = response.results
+                }
+                self.tableView.reloadData()
+                self.updateEmptyState()
             }
-            self.tableView.reloadData()
         case.failure(let error) :
             print(error.localizedDescription)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.updateEmptyState()
+            }
         }
-        
     }
-    // MARK: - ScrollView Pagination
+    // MARK: - Setup Methods
+    private func setUpSearchController(){
+        searchController.searchBar.delegate = self
+        searchController.searchBar.searchBarStyle = .minimal
+        searchController.searchBar.layer.cornerRadius = 10
+        searchController.obscuresBackgroundDuringPresentation = false
+        self.navigationItem.searchController = searchController
+     }
+     private func setUpTableViewCell() {
+         tableView.register(UINib(nibName: "ArticleTableViewCell", bundle: nil), forCellReuseIdentifier: "ArticleCell")
+     }
+}
+// MARK: - ScrollView Pagination
+extension ArticlesTableViewController {
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y // scroll vertical
         let contentHeight = scrollView.contentSize.height //total height of everything inside tableView
@@ -164,19 +133,8 @@ class ArticlesTableViewController: UITableViewController  {
                 }
             }
         }
-    
-   private func setUpSearchController(){
-       searchController.searchBar.delegate = self
-       searchController.searchBar.searchBarStyle = .minimal
-       searchController.searchBar.layer.cornerRadius = 10
-       searchController.obscuresBackgroundDuringPresentation = false
-       self.navigationItem.searchController = searchController
-    }
-    private func setUpTableViewCell() {
-        tableView.register(UINib(nibName: "ArticleTableViewCell", bundle: nil), forCellReuseIdentifier: "ArticleCell")
-    }
 }
-// MARK: - UISearchBarDelegate
+// MARK: - Search Bar Delegate
 extension ArticlesTableViewController : UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
@@ -210,24 +168,25 @@ extension ArticlesTableViewController : UISearchBarDelegate {
         }
     }
 }
-// MARK: - Private Search Methods
-
+// MARK: - Search Methods
 private extension ArticlesTableViewController {
-    func performSearch (with query : String) {
+    func performSearch(with query : String) {
         currentOffset = 0
         reachedEnd = false
         searchQuery =  query
         searchArticles(query: query)
     }
     func resetSearch() {
-        print("reset to home")
         isSearching = false
         searchQuery = ""
         currentOffset = 0
         reachedEnd = false
         articles = []
-        tableView.reloadData()
-        fetchArticles()
+        DispatchQueue.main.async{
+            self.tableView.reloadData()
+            self.updateEmptyState()
+            self.fetchArticles()
+        }
     }
     func dismissSearch () {
         DispatchQueue.main.async { [weak self] in
@@ -235,3 +194,43 @@ private extension ArticlesTableViewController {
                }
     }
 }
+// MARK: - Empty state Management
+extension ArticlesTableViewController {
+    func updateEmptyState () {
+        if articles.isEmpty {
+            contentUnavailableConfiguration = createEmptyStateConfiguration()
+        }else {
+            contentUnavailableConfiguration = nil
+        }
+    }
+    func createEmptyStateConfiguration () -> UIContentUnavailableConfiguration {
+        if isSearching {
+            return createSearchStateConfiguration()
+        }
+        else {
+            return createGeneralEmptyStateConfiguration()
+        }
+    }
+func createSearchStateConfiguration () -> UIContentUnavailableConfiguration {
+    var config = UIContentUnavailableConfiguration.search()
+    config.text = "No Articles found"
+    config.secondaryText = "Please try again"
+    config.image = UIImage(systemName: "magnifyingglass" )
+    var buttonCofnig = UIButton.Configuration.filled()
+    buttonCofnig.title = "Home"
+    config.button = buttonCofnig
+    config.buttonProperties.primaryAction = UIAction(title: "Home") { _ in
+        self.resetSearch()
+        self.dismissSearch()
+        
+    }
+    return config
+}
+func createGeneralEmptyStateConfiguration () -> UIContentUnavailableConfiguration {
+    var config = UIContentUnavailableConfiguration.empty()
+    config.text = "No Articles Available"
+    config.secondaryText = "Try again later"
+    return config
+}
+}
+

@@ -54,6 +54,16 @@ final class ArticlesTableViewController: UITableViewController  {
         cell.configure(with: article)
         return cell
     }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "ArticleDetails" , sender: self)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationVC = segue.destination as! ArticleDetailsViewController
+        if let indexPath = tableView.indexPathForSelectedRow {
+            let selected = articles[indexPath.row]
+            destinationVC.article = selected
+        }
+    }
     // MARK: - Article Service
     func fetchArticles(append : Bool = false) {
         guard !isFetching else { return
@@ -101,13 +111,12 @@ final class ArticlesTableViewController: UITableViewController  {
         }
     }
     private func updateArticles(with newArticles: [Article] , append: Bool){
-        DispatchQueue.main.async {
+    
             if append {
                 self.articles.append(contentsOf: newArticles)
             } else {
                 self.articles = newArticles
             }
-        }
     }
     private func updateUI(){
             self.tableView.reloadData()
